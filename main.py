@@ -7,13 +7,13 @@ from IO import Input
 from IO import Output
 from IO import singleOutput
 
-MAX_STEPS = 1000000 # epoch num
+MAX_STEPS = 1000 # epoch num
 LOG_DEVICE_PLACEMENT = False # if true, GPU is used
 BATCH_SIZE = 16 # batch size for training 
-TRAIN_FILE = "train.csv" # training dataset
-TEST_FILE1 = "test_data/01399.jpg"
-TEST_FILE2 = "test_data/01249.jpg"
-TEST_FILE3 = "test_data/bronch.jpg"
+TRAIN_FILE = "trainDDD.csv" # training dataset
+# TEST_FILE1 = "test_data/01399.jpg"
+# TEST_FILE2 = "test_data/01249.jpg"
+# TEST_FILE3 = "test_data/bronch.jpg"
 
 graph = tf.Graph()
 with graph.as_default():
@@ -61,9 +61,9 @@ with graph.as_default():
 	train_op = tf.group(train_op1, train_op2, train_op3)
 
 	# validation with test input
-	test_out_1 = model.test(TEST_FILE1)
-	test_out_2 = model.test(TEST_FILE2)
-	test_out_3 = model.test(TEST_FILE3)
+	# test_out_1 = model.test(TEST_FILE1)
+	# test_out_2 = model.test(TEST_FILE2)
+	# test_out_3 = model.test(TEST_FILE3)
 
 
 	# define session
@@ -75,14 +75,14 @@ with graph.as_default():
 	# training steps
 	for step in range(MAX_STEPS):
 		sess.run(train_op)
-		if step % 100 == 0 :
+		if step % 10 == 0 :
 			images_val, depths_val, predict_val = sess.run([images, depths, out_fine])
-			test_val1 = sess.run(test_out_1)
-			test_val2 = sess.run(test_out_2)
-			test_val3 = sess.run(test_out_3)
+			# test_val1 = sess.run(test_out_1)
+			# test_val2 = sess.run(test_out_2)
+			# test_val3 = sess.run(test_out_3)
 			#print test_val.shape
 			print sess.run(loss) + step
 			Output(images_val, depths_val, predict_val, "results/step_%05d" % step)
-			singleOutput(test_val3, "test_results/test3", step)
-			singleOutput(test_val2, "test_results/test2", step)
-			singleOutput(test_val1, "test_results/test1", step)
+			# singleOutput(test_val3, "test_results/test3", step)
+			# singleOutput(test_val2, "test_results/test2", step)
+			# singleOutput(test_val1, "test_results/test1", step)

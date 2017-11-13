@@ -9,7 +9,8 @@ output_height = 55
 output_width = 74
 
 def Input(csv_path, batch_size):
-	filename_queue = tf.train.string_input_producer([csv_path], shuffle = False)
+	print("zxzxz")
+	filename_queue = tf.train.string_input_producer([csv_path], shuffle = True)
 	reader = tf.TextLineReader()
 	key, value = reader.read(filename_queue)
 	record_defaults = [["image"], ["depth"]]
@@ -20,7 +21,7 @@ def Input(csv_path, batch_size):
 	image = tf.cast(image, tf.float32)  
 	# depth
 	png = tf.read_file(depth_name)
-	depth = tf.image.decode_png(png, channels = 1)
+	depth = tf.image.decode_jpeg(png, channels = 1)
 	depth = tf.cast(depth, tf.float32)
 	#depth = tf.div(depth, [255.0])
 	# resize
